@@ -31,10 +31,10 @@ public class Project {
 
 	Map map = new HashMap();	
 	HashMap<String, String> users = new HashMap<>();
-	users.put("John Smith","admin");
-	users.put("Joanne Li", "admin");
-	users.put("Chandler Forrestor", "admin");
-	users.put("Maga Kim", "admin");
+	//users.put("John Smith","admin");
+	//users.put("Joanne Li", "admin");
+	//users.put("Chandler Forrestor", "admin");
+	//users.put("Maga Kim", "admin");
 	users.put("z_ye@umail.ucsb.edu","admin");
 	users.put("joanneli@umail.ucsb.edu","admin");
 	users.put("johnsmith@umail.ucsb.edu","admin");
@@ -42,13 +42,19 @@ public class Project {
 	users.put("admin@umail.ucsb.edu","admin");
         get("/", (rq, rs) -> new ModelAndView(users, "login.mustache"), new MustacheTemplateEngine());
 	post("/home", (rq, rs) -> {
-    	String a, b;
+    	String a, b, c = "";
     	a = rq.queryParams("userlogin");
     	b = rq.queryParams("psw");
-    	if (users.get(a) != null && users.get(a).equals(b))
+    	if (users.get(a) != null && users.get(a).equals(b)) {
+		for (Map.Entry<String, String> entry : users.entrySet()) {
+			c += ("user: " + entry.getKey() + "  pass: " + entry.getValue() + "<br>");
+			c += "\n" + '\n';
+		}
+		users.put("output",c);
 		return  new ModelAndView(users, "test.mustache");
-	 else
-    	return new ModelAndView(users, "logon.mustache");	}, new MustacheTemplateEngine());
+	}
+	else
+    		return new ModelAndView(users, "logon.mustache");	}, new MustacheTemplateEngine());
 
 	get("/signup", (rq, rs) -> new ModelAndView(users, "signup.mustache"), new MustacheTemplateEngine());
 
