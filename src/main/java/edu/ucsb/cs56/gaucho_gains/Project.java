@@ -30,14 +30,24 @@ public class Project {
         port(getHerokuAssignedPort());
 
 	Map map = new HashMap();	
-		
-        // hello.mustache file is in resources/templates directory
-        	get("/", (rq, rs) -> new ModelAndView(map, "login.mustache"), new MustacheTemplateEngine());
+	HashMap<String, String> users = new HashMap<>();
+	users.put("John Smith","admin");
+	users.put("Joanne Li", "admin");
+	users.put("Chandler Forrestor", "admin");
+	users.put("Maga Kim", "admin");
+        get("/", (rq, rs) -> new ModelAndView(users, "login.mustache"), new MustacheTemplateEngine());
+	post("/home", (rq, rs) -> {
+    	String a, b;
+    	a = rq.queryParams("userlogin");
+    	b = rq.queryParams("psw");
+    	if (users.get(a) != null && users.get(a).equals(b))
+		return  new ModelAndView(users, "test.mustache");
+	 else
+    	return new ModelAndView(users, "logon.mustache");	}, new MustacheTemplateEngine());
 
-		get("/signup", (rq, rs) -> new ModelAndView(map, "signup.mustache"), new MustacheTemplateEngine());
+	get("/signup", (rq, rs) -> new ModelAndView(users, "signup.mustache"), new MustacheTemplateEngine());
 
-		post("/profile", (rq, rs) -> new ModelAndView(map, "profile.mustache"), new MustacheTemplateEngine());
-		
+	post("/profile", (rq, rs) -> new ModelAndView(users, "profile.mustache"), new MustacheTemplateEngine());		
 	}
 	
     static int getHerokuAssignedPort() {
