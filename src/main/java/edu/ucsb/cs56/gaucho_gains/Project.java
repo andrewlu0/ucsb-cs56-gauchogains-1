@@ -35,6 +35,11 @@ public class Project {
 	users.put("Joanne Li", "admin");
 	users.put("Chandler Forrestor", "admin");
 	users.put("Maga Kim", "admin");
+	users.put("z_ye@umail.ucsb.edu","admin");
+	users.put("joanneli@umail.ucsb.edu","admin");
+	users.put("johnsmith@umail.ucsb.edu","admin");
+	users.put("magakim@umail.ucsb.edu","admin");
+	users.put("admin@umail.ucsb.edu","admin");
         get("/", (rq, rs) -> new ModelAndView(users, "login.mustache"), new MustacheTemplateEngine());
 	post("/home", (rq, rs) -> {
     	String a, b;
